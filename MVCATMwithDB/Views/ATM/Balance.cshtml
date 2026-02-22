@@ -1,0 +1,40 @@
+﻿@model MVCATMwithDB.Models.Account
+
+@{
+    ViewData["Title"] = "Check Balance";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-info text-white text-center">
+                    <h2>💰 Account Balance</h2>
+                </div>
+                <div class="card-body text-center">
+                    <h4>Account Holder: @Model.AccountHolderName</h4>
+                    <h5 class="text-muted">Account: @Model.AccountNumber</h5>
+                    <hr />
+                    <div class="my-4">
+                        <h6 class="text-muted">Available Balance</h6>
+                        <h1 class="display-2 text-success fw-bold">
+                            $@Model.Balance.ToString("N2")
+                        </h1>
+                    </div>
+                    <hr />
+                    <a href="@Url.Action("Dashboard")" class="btn btn-primary">
+                        ← Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* create table post(
+    title nvarchar(50),
+    content nvarchar(100),
+    publishedon date,
+    archived  q 
+)
+*@

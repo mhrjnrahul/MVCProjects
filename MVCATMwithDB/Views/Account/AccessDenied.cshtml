@@ -1,0 +1,65 @@
+@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="container">
+    <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-md-6 text-center">
+            <div class="card border-0 shadow-lg rounded-4">
+                <div class="card-body p-5">
+                    <!-- Error Icon -->
+                    <div class="mb-4">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#dc3545" stroke-width="2" class="mx-auto">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="15" y1="9" x2="9" y2="15" />
+                            <line x1="9" y1="9" x2="15" y2="15" />
+                        </svg>
+                    </div>
+
+                    <!-- Title -->
+                    <h2 class="fw-bold text-danger mb-3">Access Denied</h2>
+                    
+                    <!-- Message -->
+                    <p class="text-muted mb-4">
+                        You don't have permission to access this page.
+                        <br />
+                        Please login with a valid account to continue.
+                    </p>
+
+                    <!-- Actions -->
+                    <div class="d-grid gap-2 col-md-8 mx-auto">
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-primary btn-lg">
+                            Go to Login
+                        </a>
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-outline-secondary">
+                            Register New Account
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .rounded-4 {
+        border-radius: 1rem !important;
+    }
+
+    .btn-primary {
+        background-color: #4361ee;
+        border-color: #4361ee;
+        padding: 0.75rem;
+    }
+
+        .btn-primary:hover {
+            background-color: #3a56d4;
+            border-color: #3a56d4;
+        }
+
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: white;
+    }
+</style>

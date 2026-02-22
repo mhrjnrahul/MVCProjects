@@ -1,0 +1,36 @@
+﻿@model SimpleMVCATM.Models.Account
+
+@{
+    ViewData["Title"] = "Withdraw money";
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">Withdraw Amount</div>
+
+        <div class="card-body">
+            <p>Available Balance: @Model.Balance</p>
+
+            @if(ViewBag.Message != null)
+            {
+                <div class="alert @(ViewBag.IsSuccess ? "alert-sucess" : "alert-danger")" role="alert">@ViewBag.Message</div>
+            }
+
+            @* form for withdrawal *@
+            <form method="post" asp-action="Withdraw">
+                <div class="mb-3">
+                    <label for="amount">Enter Amount:</label>
+                    <input type="number"
+                           class="form-control"
+                           id="amount"
+                           name="amount"
+                           required />
+                </div>
+                <div class="d-flex gap-3">
+                    <button type="submit" class="btn btn-primary">Withdraw</button>
+                    <a asp-action="Index" class="btn btn-danger">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

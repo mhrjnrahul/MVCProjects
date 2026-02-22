@@ -1,0 +1,139 @@
+@model MVCATMwithDB.Models.Account
+
+@{
+    ViewData["Title"] = "ATM Dashboard";
+}
+
+<div class="container py-4">
+    @* welcome *@
+    <div class="row mb-5">
+        <div class="col-md-8 mb-4 mb-md-0">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex flex-column justify-content-center p-4">
+                    <h6 class="text-muted mb-2">Welcome to MVCATMwithDB</h6>
+                    <h4 class="fw-bold mb-2">@Model.AccountHolderName</h4>
+                    <p class="text-muted mb-0">
+                        Account: @Model.AccountNumber
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center d-flex justify-content-center flex-column p-4">
+                    <h6 class="text-muted mb-3">Available Balance</h6>
+                    <p class="fw-bold text-dark mb-0">$@Model.Balance.ToString("N2")</p>
+                    <small class="text-muted mt-2">As of @DateTime.Now.ToString("MMM dd")</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Action Cards *@
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+            <a asp-action="Balance" class="text-decoration-none">
+                <div class="card border-0 shadow-sm h-100 balance-card atm-card">
+                    <div class="card-body d-flex flex-column justify-content-center p-4 text-center">
+                        <h5 class="fw-semibold mb-2">💰 Check Balance</h5>
+                        <p class="text-muted small mb-0">View current account balance</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <a asp-action="Withdraw" class="text-decoration-none">
+                <div class="card border-0 shadow-sm h-100 withdraw-card atm-card">
+                    <div class="card-body d-flex flex-column justify-content-center p-4 text-center">
+                        <h5 class="fw-semibold mb-2">💸 Withdraw</h5>
+                        <p class="text-muted small mb-0">Take out cash from your account.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <a asp-action="Deposit" class="text-decoration-none">
+                <div class="card border-0 shadow-sm h-100 deposit-card atm-card">
+                    <div class="card-body d-flex flex-column justify-content-center p-4 text-center">
+                        <h5 class="fw-semibold mb-2">💵 Deposit</h5>
+                        <p class="text-muted small mb-0">Deposit cash into your account.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <a asp-action="MiniStatement" class="text-decoration-none">
+                <div class="card border-0 shadow-sm h-100 balance-card atm-card">
+                    <div class="card-body d-flex flex-column justify-content-center p-4 text-center">
+                        <h5 class="fw-semibold mb-2">📄 Mini Statement</h5>
+                        <p class="text-muted small mb-0">View recent transactions.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    @* Logout *@
+    <div class="row mt-5 pt-4">
+        <div class="col-12 text-center">
+            <form method="post" asp-controller="Account" asp-action="Logout" asp-antiforgery="true">
+                <button type="submit" class="btn btn-danger px-5 py-2">
+                    🚪 Logout
+                </button>
+            </form>
+            <p class="text-muted small mt-2">
+                Secure logout
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --balance-bg: #eff6ff;
+        --balance-border: #dbeafe;
+        --balance-text: #1e40af;
+        --withdraw-bg: #fef2f2;
+        --withdraw-border: #fecaca;
+        --withdraw-text: #991b1b;
+        --deposit-bg: #f0fdf4;
+        --deposit-border: #bbf7d0;
+        --deposit-text: #166534;
+        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        --shadow-hover: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .balance-card {
+        background-color: var(--balance-bg) !important;
+        border-color: var(--balance-border) !important;
+        color: var(--balance-text) !important;
+    }
+
+    .withdraw-card {
+        background-color: var(--withdraw-bg) !important;
+        border-color: var(--withdraw-border) !important;
+        color: var(--withdraw-text) !important;
+    }
+
+    .deposit-card {
+        background-color: var(--deposit-bg) !important;
+        border-color: var(--deposit-border) !important;
+        color: var(--deposit-text) !important;
+    }
+
+    .atm-card {
+        transition: var(--transition);
+        border: 2px solid transparent;
+        border-radius: 12px;
+        cursor: pointer;
+    }
+
+        .atm-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover) !important;
+        }
+</style>

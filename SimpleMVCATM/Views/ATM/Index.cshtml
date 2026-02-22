@@ -1,0 +1,21 @@
+﻿@model SimpleMVCATM.Models.Account
+
+@{
+    ViewData["Title"] = "ATM Main Menu";
+}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header text-center">Welcome to ATM</div>
+
+        <div class="card-body">
+            <p>Account Number: @Model.AccNumber</p>
+            <p>Account Holder's Name: @Model.AccHolderName</p>
+
+            <div class="d-flex gap-3">
+                <a asp-action="Balance" class="btn btn-info">Check Balance</a>
+                <a asp-action="Withdraw" class="btn btn-info">Withdraw Money</a>
+                <a asp-action="Deposit" class="btn btn-info"> Deposit Money</a>
+            </div>
+        </div>
+    </div>
+</div>
