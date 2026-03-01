@@ -30,14 +30,15 @@ namespace ProfileMgmtSystem.Services
         }
 
         //create service
-        public async Task<Person> CreateAsync(string firstname, string lastname, string email, DateTime dob)
+        public async Task<Person> CreateAsync(string firstname, string lastname, string email, DateTime dob, string? userId = null)
         { 
             var person = new Person
             {
                 FirstName = firstname,
                 LastName = lastname,
                 Email = email,
-                DateOfBirth = dob
+                DateOfBirth = dob,
+                UserId = userId
             };
             //_context.Persons.Add(person); //we use this without repository pattern
             //await _context.SaveChangesAsync();
@@ -68,6 +69,14 @@ namespace ProfileMgmtSystem.Services
         public async Task<Person?> GetByIdAsync(int id) =>
     await _unitOfWork.Persons.GetWithIncludesAsync(
         p => p.Id == id,
+        p => p.Educations,
+        p => p.Skills,
+        p => p.Experiences
+    );
+
+        public async Task<Person?> GetByUserIdAsync(string userId) =>
+    await _unitOfWork.Persons.GetWithIncludesAsync(
+        p => p.UserId == userId,
         p => p.Educations,
         p => p.Skills,
         p => p.Experiences
@@ -128,5 +137,10 @@ namespace ProfileMgmtSystem.Services
             await _unitOfWork.SaveAsync();
             return true;
         }
+
+        //internal async Task GetByEmailAsync(string email)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

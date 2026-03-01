@@ -10,6 +10,10 @@ namespace ProfileMgmtSystem.Models
         public DateTime DateOfBirth { get; set; }
         public string? PhoneNumber { get; set; }
 
+        //link the person to their user account
+        public string? UserId { get; set; } //foreign key to the user account
+        public ApplicationUser? User { get; set; } //navigation property to the user account
+
         //navigation properties for ef core
         //its like setting up relationships between tables in a databased 
         public ICollection<Education> Educations { get; set; } = new List<Education>();

@@ -1,17 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProfileMgmtSystem.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using ProfileMgmtSystem.Models;
 
 namespace ProfileMgmtSystem.Controllers
 {
+    [Authorize]
     public class WorkExperienceController : Controller
     {
         //store the service first
         private readonly WorkExperienceService _service;
+        private readonly PersonService _personService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         //initialise the constructor to inject the service
-        public WorkExperienceController(WorkExperienceService service)
+        public WorkExperienceController(WorkExperienceService service, PersonService personService, UserManager<ApplicationUser> userManager)
         {
             _service = service;
+            _personService = personService;
+            _userManager = userManager;
         }
 
         //create work experience for a person by their id
@@ -28,6 +36,15 @@ namespace ProfileMgmtSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int personId, string companyName, string position, int startYear, int endYear)
         {
+            if(!User.IsInRole("Admin"))
+            {
+                var userId = _userManager.GetUserId(User);
+                var person = await _personService.GetByUserIdAsync(userId!);
+                if(person == null || person.Id != personId)
+                {
+                    return Forbid(); //403 forbidden if they try to add work experience to someone else's profile
+                }
+            }
             await _service.CreateAsync(personId, companyName, position, startYear, endYear);
             return RedirectToAction("Details", "Person", new { id = personId });
         }
@@ -43,6 +60,16 @@ namespace ProfileMgmtSystem.Controllers
             {
                 return NotFound();
             }
+
+            if(!User.IsInRole("Admin"))
+            {
+                var userId = _userManager.GetUserId(User);
+                var person = await _personService.GetByIdAsync(experience.PersonId);
+                if(person == null || person.UserId != userId)
+                {
+                    return Forbid(); //403 forbidden if they try to edit work experience of someone else's profile
+                }
+            }
             return View(experience);
         }
 
@@ -52,11 +79,22 @@ namespace ProfileMgmtSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, int personId, string companyName, string position, int startYear, int endYear)
         {
-            var success = await _service.UpdateAsync(id, companyName, position, startYear, endYear);
-            if (!success)
+            var skill = await _service.GetByIdAsync(id);
+            if (skill == null)
             {
                 return NotFound();
             }
+
+            if(!User.IsInRole("Admin"))
+            {
+                var userId = _userManager.GetUserId(User);
+                var person = await _personService.GetByIdAsync(personId);
+                if(person == null || person.UserId != userId)
+                {
+                    return Forbid(); //403 forbidden if they try to edit work experience of someone else's profile
+                }
+            }
+            await _service.UpdateAsync(id, companyName, position, startYear, endYear);
             return RedirectToAction("Details", "Person", new { id = personId });
         }
 
@@ -71,6 +109,16 @@ namespace ProfileMgmtSystem.Controllers
             {
                 return NotFound();
             }
+
+            if(!User.IsInRole("Admin"))
+            {
+                var userId = _userManager.GetUserId(User);
+                var person = await _personService.GetByIdAsync(experience.PersonId);
+                if(person == null || person.UserId != userId)
+                {
+                    return Forbid(); //403 forbidden if they try to delete work experience of someone else's profile
+                }
+            }
             return View(experience);
         }
 
@@ -80,10 +128,20 @@ namespace ProfileMgmtSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id, int personId)
         {
-            var success = await _service.DeleteAsync(id);
-            if (!success)
+            var experience = await _service.GetByIdAsync(id);
+            if (experience == null)
             {
                 return NotFound();
+            }
+
+            if(!User.IsInRole("Admin"))
+            {
+                var userId = _userManager.GetUserId(User);
+                var person = await _personService.GetByIdAsync(experience.PersonId);
+                if(person == null || person.UserId != userId)
+                {
+                    return Forbid(); //403 forbidden if they try to delete work experience of someone else's profile
+                }
             }
             return RedirectToAction("Details", "Person", new { id = personId });
         }
