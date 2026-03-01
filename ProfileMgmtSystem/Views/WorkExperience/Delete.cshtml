@@ -1,0 +1,13 @@
+﻿@model ProfileMgmtSystem.Models.WorkExperience
+@{
+    ViewData["Title"] = "Delete Work Experience";
+}
+<h2>Delete Work Experience</h2>
+<p>Are you sure you want to delete <strong>@Model.CompanyName - @Model.Position</strong>?</p>
+
+<form asp-action="DeleteConfirmed" asp-route-id="@Model.Id" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="personId" value="@Model.PersonId" />
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a asp-controller="Person" asp-action="Details" asp-route-id="@Model.PersonId" class="btn btn-secondary">Cancel</a>
+</form>

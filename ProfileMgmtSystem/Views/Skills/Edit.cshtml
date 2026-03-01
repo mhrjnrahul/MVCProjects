@@ -1,0 +1,30 @@
+﻿@model ProfileMgmtSystem.Models.Skills
+
+@{
+    ViewData["Title"] = "Edit Skill";
+}
+<h2>Edit Skill</h2>
+<form asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@Model.Id" />
+    <input type="hidden" name="personId" value="@Model.PersonId" />
+    <div class="mb-3">
+        <label>Skill Name</label>
+        <input type="text" name="name" value="@Model.Name" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Category</label>
+        <input type="text" name="category" value="@Model.Category" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Proficiency</label>
+        <select name="proficiency" class="form-control">
+            @foreach (var level in ViewBag.ProficiencyLevels)
+            {
+                <option value="@level" selected="@(level.ToString() == Model.Proficiency.ToString())">@level</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-warning">Save Changes</button>
+    <a asp-controller="Person" asp-action="Details" asp-route-id="@Model.PersonId" class="btn btn-secondary">Cancel</a>
+</form>

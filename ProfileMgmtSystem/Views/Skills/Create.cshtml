@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Add Skill";
+}
+<h2>Add Skill</h2>
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="personId" value="@ViewBag.PersonId" />
+    <div class="mb-3">
+        <label>Skill Name</label>
+        <input type="text" name="skillName" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Category</label>
+        <input type="text" name="category" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Proficiency</label>
+        <select name="proficiency" class="form-control">
+            @foreach (var level in ViewBag.ProficiencyLevels)
+            {
+                <option value="@level">@level</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-controller="Person" asp-action="Details" asp-route-id="@ViewBag.PersonId" class="btn btn-secondary">Cancel</a>
+</form>

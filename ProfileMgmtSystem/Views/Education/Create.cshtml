@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Create Education";
+}
+
+<h2>Create New Education</h2>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="personId" value="@ViewBag.PersonId" />
+
+    <div class="mb-3">
+        <label for="Insititution Name" class="form-label">Institution Name</label>
+        <input type="text" class="form-control" name="InstitutionName" />
+    </div>
+
+    <div class="mb-3">
+        <label for="Degree" class="form-label">Degree</label>
+        <input type="text" class="form-control" name="Degree" />
+     </div>
+
+    <div class="mb-3">
+        <label for="FieldOfStudy" class="form-label">Field Of Study</label>
+        <input type="text" class="form-control" name="FieldOfStudy" />
+    </div>
+
+    <div class="mb-3">
+        <label for="StartYear" class="form-label">Start Year</label>
+        <input type="text" class="form-control" name="StartYear"/>
+    </div>
+
+    <div class="mb-3">
+        <label for="EndYear" class="form-label">End Year</label>
+        <input type="text" class="form-control" name="EndYear" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-controller="Person" asp-action="Details" asp-route-id="@ViewBag.PersonId" class="btn btn-danger">Cancel</a>
+</form>

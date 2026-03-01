@@ -1,0 +1,11 @@
+﻿@model ProfileMgmtSystem.Models.Person
+
+<h2>Delete Person</h2>
+<p>Are you sure you want to delete <strong>@Model.FullName</strong>?</p>
+
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@Model.Id" />
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

@@ -1,0 +1,29 @@
+﻿@model ProfileMgmtSystem.Models.WorkExperience
+
+@{
+    ViewData["Title"] = "Edit Work Experience";
+}
+<h2>Edit Work Experience</h2>
+<form asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@Model.Id" />
+    <input type="hidden" name="personId" value="@Model.PersonId" />
+    <div class="mb-3">
+        <label>Company Name</label>
+        <input type="text" name="companyName" value="@Model.CompanyName" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Position</label>
+        <input type="text" name="position" value="@Model.Position" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Start Year</label>
+        <input type="number" name="startYear" value="@Model.StartYear" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>End Year</label>
+        <input type="number" name="endYear" value="@Model.EndYear" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-warning">Save Changes</button>
+    <a asp-controller="Person" asp-action="Details" asp-route-id="@Model.PersonId" class="btn btn-secondary">Cancel</a>
+</form>

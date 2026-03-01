@@ -1,0 +1,14 @@
+﻿@model ProfileMgmtSystem.Models.Skills
+
+@{
+    ViewData["Title"] = "Delete Skill";
+}
+<h2>Delete Skill</h2>
+<p>Are you sure you want to delete <strong>@Model.Name</strong>?</p>
+<form asp-action="DeleteConfirmed" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@Model.Id" />
+    <input type="hidden" name="personId" value="@Model.PersonId" />
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a asp-controller="Person" asp-action="Details" asp-route-id="@Model.PersonId" class="btn btn-secondary">Cancel</a>
+</form>

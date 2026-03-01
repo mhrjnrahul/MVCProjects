@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Add Person</h2>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+    <div class="mb-3">
+        <label for="firstName" class="form-label">First Name</label>
+        <input type="text" name="firstName" class="form-control" required/>
+    </div>
+
+    <div class="mb-3">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input type="text" name="lastName" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="dateOfBirth" class="form-label">Date of Birth</label>
+        <input type="date" name="dateOfBirth" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-danger">Cancel</a>
+</form>

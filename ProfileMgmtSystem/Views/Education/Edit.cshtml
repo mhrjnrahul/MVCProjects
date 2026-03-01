@@ -1,0 +1,33 @@
+﻿@model ProfileMgmtSystem.Models.Education
+
+<h2>Edit Education</h2>
+
+<form asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@Model.Id" />
+    <input type="hidden" name="personId" value="@Model.PersonId" />
+
+    <div class="mb-3">
+        <label>Institution Name</label>
+        <input type="text" name="institutionName" value="@Model.InstitutionName" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Degree</label>
+        <input type="text" name="degree" value="@Model.Degree" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Field of Study</label>
+        <input type="text" name="fieldOfStudy" value="@Model.FieldOfStudy" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Start Year</label>
+        <input type="number" name="startYear" value="@Model.StartYear" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>End Year</label>
+        <input type="number" name="endYear" value="@Model.EndYear" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-warning">Save Changes</button>
+    <a asp-controller="Person" asp-action="Details" asp-route-id="@Model.PersonId" class="btn btn-secondary">Cancel</a>
+</form>

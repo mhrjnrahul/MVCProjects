@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Add Work Experience";
+}
+<h2>Add Work Experience</h2>
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="personId" value="@ViewBag.PersonId" />
+    <div class="mb-3">
+        <label>Company Name</label>
+        <input type="text" name="companyName" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Position</label>
+        <input type="text" name="position" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Start Year</label>
+        <input type="number" name="startYear" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>End Year</label>
+        <input type="number" name="endYear" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-controller="Person" asp-action="Details" asp-route-id="@ViewBag.PersonId" class="btn btn-secondary">Cancel</a>
+</form>
