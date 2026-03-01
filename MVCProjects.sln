@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCATMwithDB", "MVCATMwithD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProfileMgmtSystem", "ProfileMgmtSystem\ProfileMgmtSystem.csproj", "{A0CB3516-70CA-42F8-9654-088B01C64E03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProfileMgmtSystem.Console", "ProfileMgmtSystem.Console\ProfileMgmtSystem.Console.csproj", "{CBBC9035-A965-4587-A47C-451A6D26FB08}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A0CB3516-70CA-42F8-9654-088B01C64E03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0CB3516-70CA-42F8-9654-088B01C64E03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0CB3516-70CA-42F8-9654-088B01C64E03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBBC9035-A965-4587-A47C-451A6D26FB08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBBC9035-A965-4587-A47C-451A6D26FB08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBBC9035-A965-4587-A47C-451A6D26FB08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBBC9035-A965-4587-A47C-451A6D26FB08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
