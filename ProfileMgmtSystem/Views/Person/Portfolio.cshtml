@@ -1,0 +1,454 @@
+﻿@model ProfileMgmtSystem.Models.Person
+
+@{
+    ViewData["Title"] = Model.FullName + " - Portfolio";
+    Layout = null; // full custom layout for portfolio
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@Model.FullName - Portfolio</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 80px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .hero::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 60%);
+                animation: pulse 8s ease-in-out infinite;
+            }
+
+        @@keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            margin: 0 auto 20px;
+            border: 4px solid rgba(99,102,241,0.5);
+            box-shadow: 0 0 30px rgba(99,102,241,0.3);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .hero .subtitle {
+            color: #a5b4fc;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .hero .badge-info {
+            background: rgba(99,102,241,0.2);
+            border: 1px solid rgba(99,102,241,0.4);
+            color: #a5b4fc;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 4px;
+            display: inline-block;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            background: #0a0a0a;
+            padding: 60px 0;
+        }
+
+        .section-card {
+            background: #111111;
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            transition: border-color 0.3s;
+        }
+
+            .section-card:hover {
+                border-color: #6366f1;
+            }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #6366f1;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .section-title::after {
+                content: '';
+                flex: 1;
+                height: 1px;
+                background: linear-gradient(to right, #6366f1, transparent);
+            }
+
+        /* EDUCATION ITEMS */
+        .edu-item {
+            display: flex;
+            gap: 20px;
+            padding: 16px 0;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+            .edu-item:last-child {
+                border-bottom: none;
+            }
+
+        .edu-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 18px;
+        }
+
+        .edu-content h5 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .edu-content p {
+            color: #888;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .edu-year {
+            margin-left: auto;
+            color: #6366f1;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            padding-top: 4px;
+        }
+
+        /* SKILLS */
+        .skill-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 8px 16px;
+            margin: 6px;
+            transition: all 0.2s;
+        }
+
+            .skill-badge:hover {
+                border-color: #6366f1;
+                background: rgba(99,102,241,0.1);
+            }
+
+        .skill-name {
+            color: #e0e0e0;
+            font-size: 0.9rem;
+        }
+
+        .skill-level {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .level-Beginner {
+            background: rgba(59,130,246,0.2);
+            color: #60a5fa;
+        }
+
+        .level-Intermediate {
+            background: rgba(16,185,129,0.2);
+            color: #34d399;
+        }
+
+        .level-Advanced {
+            background: rgba(245,158,11,0.2);
+            color: #fbbf24;
+        }
+
+        .level-Expert {
+            background: rgba(239,68,68,0.2);
+            color: #f87171;
+        }
+
+        /* WORK EXPERIENCE */
+        .work-item {
+            position: relative;
+            padding: 16px 0 16px 28px;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+            .work-item:last-child {
+                border-bottom: none;
+            }
+
+            .work-item::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 24px;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: #6366f1;
+                box-shadow: 0 0 8px rgba(99,102,241,0.5);
+            }
+
+            .work-item::after {
+                content: '';
+                position: absolute;
+                left: 4px;
+                top: 34px;
+                width: 2px;
+                height: calc(100% - 10px);
+                background: #1a1a1a;
+            }
+
+            .work-item:last-child::after {
+                display: none;
+            }
+
+            .work-item h5 {
+                color: white;
+                font-weight: 600;
+                margin-bottom: 4px;
+            }
+
+            .work-item .company {
+                color: #6366f1;
+                font-size: 0.9rem;
+                margin-bottom: 4px;
+            }
+
+            .work-item .years {
+                color: #555;
+                font-size: 0.85rem;
+            }
+
+        /* EDIT BUTTON */
+        .edit-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 14px 28px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(99,102,241,0.4);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+            .edit-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 30px rgba(99,102,241,0.6);
+                color: white;
+            }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #444;
+        }
+
+            .empty-state i {
+                font-size: 2rem;
+                margin-bottom: 10px;
+            }
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <div class="hero text-center">
+        <div class="container position-relative">
+            <div class="avatar">
+                @Model.FullName?.Substring(0, 1).ToUpper()
+            </div>
+            <h1>@Model.FullName</h1>
+            <p class="subtitle">
+                @if (Model.Experiences.Any())
+                {
+                    @Model.Experiences.OrderByDescending(e => e.EndYear).First().Position
+                    <span> at </span>
+                    @Model.Experiences.OrderByDescending(e => e.EndYear).First().CompanyName
+                }
+                else
+                {
+                    <span>Profile</span>
+                }
+            </p>
+            <div>
+                @if (!string.IsNullOrEmpty(Model.Email))
+                {
+                    <span class="badge-info"><i class="fas fa-envelope me-1"></i>@Model.Email</span>
+                }
+                @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                {
+                    <span class="badge-info"><i class="fas fa-phone me-1"></i>@Model.PhoneNumber</span>
+                }
+                <span class="badge-info"><i class="fas fa-birthday-cake me-1"></i>Age @Model.Age</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+
+                    <!-- EDUCATION -->
+                    <div class="section-card">
+                        <div class="section-title">
+                            <i class="fas fa-graduation-cap"></i> Education
+                        </div>
+                        @if (!Model.Educations.Any())
+                        {
+                            <div class="empty-state">
+                                <i class="fas fa-graduation-cap d-block"></i>
+                                No education records yet
+                            </div>
+                        }
+                        else
+                        {
+                            @foreach (var edu in Model.Educations.OrderByDescending(e => e.EndYear))
+                            {
+                                <div class="edu-item">
+                                    <div class="edu-icon">🎓</div>
+                                    <div class="edu-content">
+                                        <h5>@edu.Degree in @edu.FieldOfStudy</h5>
+                                        <p>@edu.InstitutionName</p>
+                                    </div>
+                                    <div class="edu-year">@edu.StartYear — @edu.EndYear</div>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <!-- SKILLS -->
+                    <div class="section-card">
+                        <div class="section-title">
+                            <i class="fas fa-code"></i> Skills
+                        </div>
+                        @if (!Model.Skills.Any())
+                        {
+                            <div class="empty-state">
+                                <i class="fas fa-tools d-block"></i>
+                                No skills added yet
+                            </div>
+                        }
+                        else
+                        {
+                            @foreach (var skill in Model.Skills)
+                            {
+                                <div class="skill-badge">
+                                    <span class="skill-name">@skill.Name</span>
+                                    <span class="skill-level level-@skill.Proficiency">@skill.Proficiency</span>
+                                    <span style="color:#444; font-size:0.8rem">@skill.Category</span>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <!-- WORK EXPERIENCE -->
+                    <div class="section-card">
+                        <div class="section-title">
+                            <i class="fas fa-briefcase"></i> Work Experience
+                        </div>
+                        @if (!Model.Experiences.Any())
+                        {
+                            <div class="empty-state">
+                                <i class="fas fa-briefcase d-block"></i>
+                                No work experience yet
+                            </div>
+                        }
+                        else
+                        {
+                            @foreach (var exp in Model.Experiences.OrderByDescending(e => e.EndYear))
+                            {
+                                <div class="work-item">
+                                    <h5>@exp.Position</h5>
+                                    <div class="company">@exp.CompanyName</div>
+                                    <div class="years">@exp.StartYear — @exp.EndYear</div>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING EDIT BUTTON -->
+    <a href="/Person/Details/@Model.Id" class="edit-btn">
+        <i class="fas fa-edit"></i> Edit Profile
+    </a>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

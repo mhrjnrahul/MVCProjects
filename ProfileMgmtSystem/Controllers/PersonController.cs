@@ -30,6 +30,26 @@ namespace ProfileMgmtSystem.Controllers
             return View(persons);
         }
 
+        // GET: /Person/MyProfile
+        public async Task<IActionResult> MyProfile()
+        {
+            var userId = _userManager.GetUserId(User);
+            var person = await _personService.GetByUserIdAsync(userId!);
+            if (person == null)
+                return RedirectToAction(nameof(Create)); // no profile yet
+            return RedirectToAction(nameof(Portfolio));
+        }
+
+        // GET: /Person/Portfolio
+        public async Task<IActionResult> Portfolio()
+        {
+            var userId = _userManager.GetUserId(User);
+            var person = await _personService.GetByUserIdAsync(userId!);
+            if (person == null)
+                return RedirectToAction(nameof(Create));
+            return View(person);
+        }
+
         //get a person detail by id
         //details.cshtml
         public async Task<IActionResult> Details(int id)

@@ -1,24 +1,38 @@
 ﻿@model ProfileMgmtSystem.Models.Person
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ProfileMgmtSystem.Models.ApplicationUser> SignInManager
+@inject UserManager<ProfileMgmtSystem.Models.ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Person Details";
+    var currentUserId = UserManager.GetUserId(User);
+    var isAdmin = User.IsInRole("Admin");
+    var isOwner = Model.UserId == currentUserId;
+    var canEdit = isAdmin || isOwner;
+}
 
 <h2>@Model.FullName</h2>
-
 <dl class="row">
     <dt class="col-sm-3">Email</dt>
     <dd class="col-sm-9">@Model.Email</dd>
-
+    <dt class="col-sm-3">Phone</dt>
+    <dd class="col-sm-9">@Model.PhoneNumber</dd>
     <dt class="col-sm-3">Age</dt>
     <dd class="col-sm-9">@Model.Age</dd>
-
     <dt class="col-sm-3">Date of Birth</dt>
     <dd class="col-sm-9">@Model.DateOfBirth.ToShortDateString()</dd>
 </dl>
 
+<hr />
+
 <!-- EDUCATION SECTION -->
 <div class="d-flex justify-content-between align-items-center">
     <h4>Education</h4>
-    <a asp-controller="Education" asp-action="Create" asp-route-personId="@Model.Id" class="btn btn-sm btn-primary"> Add Education</a>
+    @if (canEdit)
+    {
+        <a asp-controller="Education" asp-action="Create" asp-route-personId="@Model.Id" class="btn btn-sm btn-primary">+ Add Education</a>
+    }
 </div>
-
 @if (!Model.Educations.Any())
 {
     <p class="text-muted">No education records yet.</p>
@@ -27,7 +41,16 @@ else
 {
     <table class="table table-sm">
         <thead>
-            <tr><th>Institution</th><th>Degree</th><th>Field</th><th>Years</th><th></th></tr>
+            <tr>
+                <th>Institution</th>
+                <th>Degree</th>
+                <th>Field</th>
+                <th>Years</th>
+                @if (canEdit)
+                {
+                    <th></th>
+                }
+            </tr>
         </thead>
         <tbody>
             @foreach (var edu in Model.Educations)
@@ -37,11 +60,13 @@ else
                     <td>@edu.Degree</td>
                     <td>@edu.FieldOfStudy</td>
                     <td>@edu.StartYear - @edu.EndYear</td>
-                    <td>
-                        <a asp-controller="Education" asp-action="Edit" asp-route-id="@edu.Id" class="btn btn-sm btn-warning">Edit</a>
-                        <a asp-controller="Education" asp-action="Delete" asp-route-id="@edu.Id" class="btn btn-sm btn-danger">Delete</a>
-
-                    </td>
+                    @if (canEdit)
+                    {
+                        <td>
+                            <a asp-controller="Education" asp-action="Edit" asp-route-id="@edu.Id" class="btn btn-sm btn-warning">Edit</a>
+                            <a asp-controller="Education" asp-action="Delete" asp-route-id="@edu.Id" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>
@@ -49,12 +74,15 @@ else
 }
 
 <hr />
+
 <!-- SKILLS SECTION -->
 <div class="d-flex justify-content-between align-items-center">
     <h4>Skills</h4>
-    <a asp-controller="Skills" asp-action="Create" asp-route-personId="@Model.Id" class="btn btn-sm btn-primary">+ Add Skill</a>
+    @if (canEdit)
+    {
+        <a asp-controller="Skills" asp-action="Create" asp-route-personId="@Model.Id" class="btn btn-sm btn-primary">+ Add Skill</a>
+    }
 </div>
-
 @if (!Model.Skills.Any())
 {
     <p class="text-muted">No skills yet.</p>
@@ -63,7 +91,15 @@ else
 {
     <table class="table table-sm">
         <thead>
-            <tr><th>Name</th><th>Category</th><th>Proficiency</th><th></th></tr>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Proficiency</th>
+                @if (canEdit)
+                {
+                    <th></th>
+                }
+            </tr>
         </thead>
         <tbody>
             @foreach (var skill in Model.Skills)
@@ -72,21 +108,28 @@ else
                     <td>@skill.Name</td>
                     <td>@skill.Category</td>
                     <td>@skill.Proficiency</td>
-                    <td>
-                        <a asp-controller="Skills" asp-action="Edit" asp-route-id="@skill.Id" class="btn btn-sm btn-warning">Edit</a>
-                        <a asp-controller="Skills" asp-action="Delete" asp-route-id="@skill.Id" class="btn btn-sm btn-danger">Delete</a>
-                    </td>
+                    @if (canEdit)
+                    {
+                        <td>
+                            <a asp-controller="Skills" asp-action="Edit" asp-route-id="@skill.Id" class="btn btn-sm btn-warning">Edit</a>
+                            <a asp-controller="Skills" asp-action="Delete" asp-route-id="@skill.Id" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>
     </table>
 }
 
+<hr />
 
 <!-- WORK EXPERIENCE SECTION -->
 <div class="d-flex justify-content-between align-items-center">
     <h4>Work Experience</h4>
-    <a asp-controller="WorkExperience" asp-action="Create" asp-route-personId="@Model.Id" class="btn btn-sm btn-primary">+ Add Experience</a>
+    @if (canEdit)
+    {
+        <a asp-controller="WorkExperience" asp-action="Create" asp-route-personId="@Model.Id" class="btn btn-sm btn-primary">+ Add Experience</a>
+    }
 </div>
 @if (!Model.Experiences.Any())
 {
@@ -96,7 +139,15 @@ else
 {
     <table class="table table-sm">
         <thead>
-            <tr><th>Company</th><th>Position</th><th>Years</th><th></th></tr>
+            <tr>
+                <th>Company</th>
+                <th>Position</th>
+                <th>Years</th>
+                @if (canEdit)
+                {
+                    <th></th>
+                }
+            </tr>
         </thead>
         <tbody>
             @foreach (var exp in Model.Experiences)
@@ -105,16 +156,26 @@ else
                     <td>@exp.CompanyName</td>
                     <td>@exp.Position</td>
                     <td>@exp.StartYear - @exp.EndYear</td>
-                    <td>
-                        <a asp-controller="WorkExperience" asp-action="Edit" asp-route-id="@exp.Id" asp-route-personId="@Model.Id" class="btn btn-sm btn-warning">Edit</a>
-                        <a asp-controller="WorkExperience" asp-action="Delete" asp-route-id="@exp.Id" asp-route-personId="@Model.Id" class="btn btn-sm btn-danger">Delete</a>
-                    </td>
+                    @if (canEdit)
+                    {
+                        <td>
+                            <a asp-controller="WorkExperience" asp-action="Edit" asp-route-id="@exp.Id" class="btn btn-sm btn-warning">Edit</a>
+                            <a asp-controller="WorkExperience" asp-action="Delete" asp-route-id="@exp.Id" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>
     </table>
 }
+
 <hr />
 
-<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit Person</a>
-<a asp-action="Index" class="btn btn-secondary">Back to List</a>
+@if (canEdit)
+{
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit Person</a>
+}
+@if (isAdmin)
+{
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+}

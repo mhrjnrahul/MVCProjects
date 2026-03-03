@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ProfileMgmtSystem.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "User Management";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>User Management</h2>
+    <a asp-action="CreateUser" class="btn btn-primary">+ Create User</a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Role</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>
+                    <span class="badge @(ViewBag.UserRoles[user.Id] == "Admin" ? "bg-danger" : "bg-primary")">
+                        @ViewBag.UserRoles[user.Id]
+                    </span>
+                </td>
+                <td>
+                    <form asp-action="DeleteUser" method="post" style="display:inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="userId" value="@user.Id" />
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Are you sure?')">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

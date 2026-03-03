@@ -7,3 +7,4 @@ namespace ProfileMgmtSystem.Models
         // additional properpties can be added later
     }
 }
+
